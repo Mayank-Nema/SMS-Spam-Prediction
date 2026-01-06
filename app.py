@@ -1,12 +1,27 @@
 import streamlit as st
 import pickle
-import nltk
 import string
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('punkt_tab')
+import nltk
+import os
+
+NLTK_DATA_DIR = "/opt/render/nltk_data"
+
+if not os.path.exists(NLTK_DATA_DIR):
+    os.makedirs(NLTK_DATA_DIR)
+
+nltk.data.path.append(NLTK_DATA_DIR)
+
+def download_nltk_data():
+    resources = ["punkt", "punkt_tab", "stopwords"]
+    for resource in resources:
+        try:
+            nltk.data.find(resource)
+        except LookupError:
+            nltk.download(resource, download_dir=NLTK_DATA_DIR)
+
+download_nltk_data()
 
 
 ps=PorterStemmer()
